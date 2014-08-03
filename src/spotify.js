@@ -9,9 +9,26 @@ var spotifyApi = new SpotifyWebApi({
   redirectUri : config.redirectUri
 });
 
+var addSongBatchQueue = [];
+var addSongBatchInterval = 15000; //ms
+
 function addToPlaylist(uri) {
-    return spotifyApi.addTracksToPlaylist(config.username, config.playlistId, [uri]);
+    if (uri) {
+        addSongBatchQueue.push(uri);
+    }
 }
+
+function addSongBatch() {
+    var songsInQueue = addSongBatchQueue.length;
+    if (songsInQueue) {
+        console.log('[Spotify] Batching ' + songsInQueue + ' songs');
+        spotifyApi.addTracksToPlaylist(config.username, config.playlistId, addSongBatchQueue);
+        addSongBatchQueue = [];
+    }
+}
+
+setInterval(addSongBatch, addSongBatchInterval);
+
 
 function search(artist, track, callback) {
     var query = artist + ' ' + track;
@@ -21,7 +38,7 @@ function search(artist, track, callback) {
         var firstPage = data.tracks.items;
         var firstItem = data.tracks.items[0];
         if (!firstItem) {
-            console.log('[Spotify] Could not find track');
+            console.log('[Spotify] Could not find track: ' + query);
             callback();
         }
         callback(firstItem.uri);
