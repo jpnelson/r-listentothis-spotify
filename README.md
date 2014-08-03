@@ -30,3 +30,4 @@ hour (the expiration is one hour, so you may need to re-generate a token if you 
 To run:
 * `npm install` in the base directory
 * `node listentothis.js` in the `src/` directory
+    * use `node listentothis.js -w X` to run the server, with the first add happening in `X` minutes
