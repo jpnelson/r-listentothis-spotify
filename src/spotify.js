@@ -19,10 +19,12 @@ function search(artist, track, callback) {
         var firstPage = data.tracks.items;
         var firstItem = data.tracks.items[0];
         if (!firstItem) {
+            console.log('Could not find track');
             callback();
         }
         callback(firstItem.uri);
     }, function(err) {
+        console.log('Error: ' + err);
         callback(err);
     });
 }
