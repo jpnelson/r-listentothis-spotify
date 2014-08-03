@@ -1,6 +1,8 @@
 var spotify = require('./spotify');
 var reddit = require('./reddit');
 
+var argument = process.argv[2];
+var addOnBoot = (argument !== '-s');
 
 function addRedditFrontPageToPlaylist() {
     reddit.getFrontPage(function(song) {
@@ -10,4 +12,6 @@ function addRedditFrontPageToPlaylist() {
 }
 
 setInterval(addRedditFrontPageToPlaylist, 86400000);
-addRedditFrontPageToPlaylist();
+if (addOnBoot) {
+    addRedditFrontPageToPlaylist();
+}
