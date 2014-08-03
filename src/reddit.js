@@ -9,12 +9,14 @@ function cleanTitle(title) {
 
 function getArtist(title) {
     var newTitle = cleanTitle(title);
-    return newTitle.split('-')[0];
+    var artist = newTitle.split('-')[1];
+    return artist ? artist.trim() : artist;
 }
 
 function getTrackName(title) {
     var newTitle = cleanTitle(title);
-    return newTitle.split('-')[1];
+    var track = newTitle.split('-')[1];
+    return track ? track.trim() : track;
 }
 
 exports.getFrontPage = function(callback) {
