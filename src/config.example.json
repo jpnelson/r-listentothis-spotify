@@ -1,0 +1,9 @@
+{
+  "accessToken": <INSERT ACCESS TOKEN>,
+  "refreshToken": <INSERT REFRESH TOKEN>,
+  "playlistId": "1pKu72RdLnBDoSVj5oe583",
+  "username": "cyberdash",
+  "redirectUri": "https://www.runscope.com/oauth_tool/callback",
+  "clientId": <INSERT CLIENT ID>,
+  "clientSecret": <INSERT CLIENT SECRET>
+}
