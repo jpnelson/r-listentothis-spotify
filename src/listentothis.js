@@ -10,3 +10,4 @@ function addRedditFrontPageToPlaylist() {
 }
 
 setInterval(addRedditFrontPageToPlaylist, 86400000);
+addRedditFrontPageToPlaylist();

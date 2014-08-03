@@ -1,4 +1,7 @@
 var SpotifyWebApi = require("spotify-web-api-node");
+var config = require('./config');
+
+console.log('Configured with client ID ' + config.clientId);
 
 var spotifyApi = new SpotifyWebApi({
   clientId : config.clientId,

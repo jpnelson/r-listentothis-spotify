@@ -24,3 +24,9 @@ Runscope, and enter
 
 The server will start using these tokens, and then refresh them once every half
 hour (the expiration is one hour, so you may need to re-generate a token if you leave it too long)
+
+## Running the project
+
+To run:
+* `npm install` in the base directory
+* `node listentothis.js` in the `src/` directory
