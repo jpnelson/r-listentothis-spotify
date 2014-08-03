@@ -1,0 +1,13 @@
+{
+  "name": "r-listentothis",
+  "version": "0.0.1",
+  "homepage": "http://joshnelson.info",
+  "description": "r/listentothis spotify integration",
+  "main": "src/listentothis.js",
+  "author": "Joshua Nelson",
+  "license": "MIT",
+  "dependencies": {
+    "spotify-web-api-node": "0.0.11",
+    "redwrap": "0.0.4"
+  }
+}
