@@ -9,7 +9,7 @@ function cleanTitle(title) {
 
 function getArtist(title) {
     var newTitle = cleanTitle(title);
-    var artist = newTitle.split('-')[1];
+    var artist = newTitle.split('-')[0];
     return artist ? artist.trim() : artist;
 }
 

@@ -9,7 +9,7 @@ var timeForFirstAddInMs = waitForFirstAdd ? 0 : process.argv[3] * 60 * 1000;
 function addRedditFrontPageToPlaylist() {
     reddit.getFrontPage(function(song) {
         spotify.searchAndAdd(song.artist, song.title);
-        console.log('Attempting to add ' + song.artist + ' - ' + song.title)
+        console.log('[listentothis] Attempting to add ' + song.artist + ' - ' + song.title)
     });
 }
 
@@ -18,4 +18,4 @@ setTimeout(function() {
     addRedditFrontPageToPlaylist();
 }, timeForFirstAddInMs);
 
-console.log('Waiting ' + timeForFirstAddInMs + 'ms to start');
+console.log('[listentothis] Waiting ' + timeForFirstAddInMs + 'ms to start');

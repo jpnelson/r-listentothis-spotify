@@ -1,7 +1,7 @@
 var SpotifyWebApi = require("spotify-web-api-node");
 var config = require('./config');
 
-console.log('Configured with client ID ' + config.clientId);
+console.log('[Spotify] Configured with client ID ' + config.clientId);
 
 var spotifyApi = new SpotifyWebApi({
   clientId : config.clientId,
@@ -14,12 +14,14 @@ function addToPlaylist(uri) {
 }
 
 function search(artist, track, callback) {
+    var query = artist + ' ' + track;
+    console.log('[Spotify] searching for ' + query);
     spotifyApi.searchTracks(artist + ' ' + track)
     .then(function(data) {
         var firstPage = data.tracks.items;
         var firstItem = data.tracks.items[0];
         if (!firstItem) {
-            console.log('Could not find track');
+            console.log('[Spotify] Could not find track');
             callback();
         }
         callback(firstItem.uri);
@@ -33,9 +35,9 @@ function refreshAccessToken() {
     spotifyApi.refreshAccessToken()
         .then(function(data) {
                 tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
-                console.log('Refreshed token. It now expires in ' + Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds');
+                console.log('[Spotify] Refreshed token. It now expires in ' + Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds');
             }, function(err) {
-                console.log('Could not refresh the token!', err);
+                console.log('[Spotify] Could not refresh the token!', err);
             });
 }
 
