@@ -43,7 +43,8 @@ function search(artist, track, callback) {
         }
         callback(firstItem.uri);
     }, function(err) {
-        console.log('Error: ' + err);
+        console.log('[Spotify] Error');
+        console.log(err);
         callback(err);
     });
 }
