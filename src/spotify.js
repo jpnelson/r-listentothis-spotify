@@ -49,17 +49,16 @@ function search(artist, track, callback) {
     });
 }
 
-function refreshAccessToken() {
+function refreshAccessToken(callback) {
     spotifyApi.refreshAccessToken()
         .then(function(data) {
                 tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
                 console.log('[Spotify] Refreshed token. It now expires in ' + Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds');
+                callback();
             }, function(err) {
                 console.log('[Spotify] Could not refresh the token!', err);
             });
 }
-
-setInterval(refreshAccessToken, 1800 * 1000);
 
 
 function initialiseAccessToken() {
@@ -71,6 +70,8 @@ initialiseAccessToken();
 
 exports.searchAndAdd = function(artist, track) {
     search(artist, track, function(uri) {
-        addToPlaylist(uri);
+        refreshAccessToken(function(){
+            addToPlaylist(uri);
+        });
     });
 }
