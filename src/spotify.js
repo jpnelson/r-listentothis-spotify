@@ -69,8 +69,8 @@ function initialiseAccessToken() {
 initialiseAccessToken();
 
 exports.searchAndAdd = function(artist, track) {
-    search(artist, track, function(uri) {
-        refreshAccessToken(function(){
+    refreshAccessToken(function(){
+        search(artist, track, function(uri) {
             addToPlaylist(uri);
         });
     });
