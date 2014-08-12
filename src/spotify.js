@@ -30,10 +30,10 @@ function addSongBatch() {
 setInterval(addSongBatch, addSongBatchInterval);
 
 
-function search(artist, track, callback) {
-    var query = artist + ' ' + track;
+function search(artist, title, callback) {
+    var query = artist + ' ' + title;
     console.log('[Spotify] searching for ' + query);
-    spotifyApi.searchTracks(artist + ' ' + track)
+    spotifyApi.searchTracks(artist + ' ' + title)
     .then(function(data) {
         var firstPage = data.tracks.items;
         var firstItem = data.tracks.items[0];
@@ -68,10 +68,12 @@ function initialiseAccessToken() {
 
 initialiseAccessToken();
 
-exports.searchAndAdd = function(artist, track) {
-    refreshAccessToken(function(){
-        search(artist, track, function(uri) {
-            addToPlaylist(uri);
+exports.searchAndAdd = function(tracks) {
+    refreshAccessToken(function() {
+        tracks.forEach(function(track) {
+            search(track.artist, track.title, function(uri) {
+                addToPlaylist(uri);
+            });
         });
     });
 }

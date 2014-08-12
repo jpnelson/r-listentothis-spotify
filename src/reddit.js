@@ -1,35 +1,37 @@
 reddit = require('redwrap');
 
-function cleanTitle(title) {
+function cleanPostTitle(title) {
     var newTitle = title.replace('--', '-');
     newTitle = newTitle.replace(/\(.*$/g, '');
     newTitle = newTitle.replace(/\[.*$/g, '');
     return newTitle;
 }
 
-function getArtist(title) {
-    var newTitle = cleanTitle(title);
-    var artist = newTitle.split('-')[0];
+function getTrackArtist(postTitle) {
+    var cleanedTitle = cleanPostTitle(postTitle);
+    var artist = cleanedTitle.split('-')[0];
     return artist ? artist.trim() : artist;
 }
 
-function getTrackName(title) {
-    var newTitle = cleanTitle(title);
-    var track = newTitle.split('-')[1];
-    return track ? track.trim() : track;
+function getTrackTitle(postTitle) {
+    var cleanedTitle = cleanPostTitle(postTitle);
+    var title = cleanedTitle.split('-')[1];
+    return title ? title.trim() : title;
 }
 
 exports.getFrontPage = function(callback) {
-    reddit.r('listentothis').sort('hot').from('day').limit(100, function(err, data, res){
+    reddit.r('listentothis').sort('hot').from('day').limit(100, function(err, data, res) {
+        var tracks = [];
         data.data.children.forEach(function(item) {
-            var artist = getArtist(item.data.title);
-            var title = getTrackName(item.data.title);
+            var artist = getTrackArtist(item.data.title);
+            var title = getTrackTitle(item.data.title);
             if (artist && title) {
-                callback({
+                tracks.push({
                     artist: artist,
                     title: title
                 });
             }
         });
+        callback(tracks);
     });
 }

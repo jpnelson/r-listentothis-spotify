@@ -7,10 +7,8 @@ var ONE_DAY_IN_MS = 86400000;
 var timeForFirstAddInMs = waitForFirstAdd ? 0 : process.argv[3] * 60 * 1000;
 
 function addRedditFrontPageToPlaylist() {
-    var songs = [];
-    reddit.getFrontPage(function(song) {
-        spotify.searchAndAdd(song.artist, song.title);
-        console.log('[listentothis] Attempting to add ' + song.artist + ' - ' + song.title)
+    reddit.getFrontPage(function(tracks) {
+        spotify.searchAndAdd(tracks);
     });
 }
 
