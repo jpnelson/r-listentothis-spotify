@@ -8,6 +8,7 @@
   "license": "MIT",
   "dependencies": {
     "spotify-web-api-node": "0.0.11",
-    "redwrap": "0.0.4"
+    "redwrap": "0.0.4",
+    "phantom": "0.6.5"
   }
 }
