@@ -3,7 +3,7 @@ var reddit = require('./reddit');
 
 var argument = process.argv[2];
 var waitForFirstAdd = (argument !== '-w');
-var ONE_DAY_IN_MS = 86400000 / 24 + 1000 * 10;
+var ONE_DAY_IN_MS = 86400000;
 var timeForFirstAddInMs = waitForFirstAdd ? 0 : process.argv[3] * 60 * 1000;
 
 function addRedditFrontPageToPlaylist() {
