@@ -1,5 +1,6 @@
 var SpotifyWebApi = require("spotify-web-api-node");
 var config = require('./config');
+var login = require('./login');
 
 console.log('[Spotify] Configured with client ID ' + config.clientId);
 var spotifyApi = new SpotifyWebApi({
@@ -48,28 +49,23 @@ function search(artist, title, callback) {
     });
 }
 
-function refreshAccessToken(callback) {
-    spotifyApi.refreshAccessToken()
-        .then(function(data) {
-                tokenExpirationEpoch = (new Date().getTime() / 1000) + data['expires_in'];
-                console.log('[Spotify] Refreshed token. It now expires in ' + Math.floor(tokenExpirationEpoch - new Date().getTime() / 1000) + ' seconds');
-                console.log(data);
+
+function authorize(callback) {
+    login.loginAndGetAuthCode(function(authorizationCode) {
+        spotifyApi.authorizationCodeGrant(authorizationCode)
+            .then(function(data) {
+                spotifyApi.setAccessToken(data['access_token']);
+                spotifyApi.setRefreshToken(data['refresh_token']);
+
                 callback();
             }, function(err) {
-                console.log('[Spotify] Could not refresh the token!', err);
+                console.log('Something went wrong when retrieving the access token!', err);
             });
+    });
 }
-
-
-function initialiseAccessToken() {
-    spotifyApi.setAccessToken(config.accessToken);
-    spotifyApi.setRefreshToken(config.refreshToken);
-}
-
-initialiseAccessToken();
 
 exports.searchAndAdd = function(tracks) {
-    refreshAccessToken(function() {
+    authorize(function() {
         tracks.forEach(function(track) {
             search(track.artist, track.title, function(uri) {
                 addToPlaylist(uri);
