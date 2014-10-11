@@ -14,9 +14,31 @@ function enterDetailsAndLogin(page, callback) {
             evt.initCustomEvent('input', false, false, null);
             el.dispatchEvent(evt);
         }
-        setText(document.getElementById('login-username'), username);
+
+        var clickElement = function (el) {
+            var ev = document.createEvent("MouseEvent");
+            ev.initMouseEvent(
+                    "click",
+                    true /* bubble */, true /* cancelable */,
+                    window, null,
+                    0, 0, 0, 0, /* coordinates */
+                    false, false, false, false, /* modifier keys */
+                    0 /*left*/, null
+                );
+                el.dispatchEvent(ev);
+        };
+
+        clickElement(document.getElementsByClassName('btn-primary')[0]);
         setText(document.getElementById('login-password'), password);
-        document.getElementsByClassName('btn-primary')[0].click();
+        setText(document.getElementById('login-username'), username);
+        setTimeout(function() {
+            clickElement(document.getElementsByClassName('btn-primary')[0]);
+
+            setTimeout(function() {
+                clickElement(document.getElementsByClassName('btn-primary')[0]);
+
+            }, 2000);
+        }, 2000);
     }, function(result) {
         callback(result);
     }, config.loginUsername, config.loginPassword);
@@ -32,23 +54,23 @@ exports.loginAndGetAuthCode = function(returnAuthCodeCallback) {
             ph.createPage(function (page) {
                 page.open(authUrl, function (status) {
                     console.log("[login] Opened spotify login page? ", status);
-                    enterDetailsAndLogin(page, function () {
-                        setTimeout(function() {
-                            page.evaluate(function() {
-                                document.getElementsByClassName('btn-primary')[0].click();
-                            }, function() {
-                                setTimeout(function() {
-                                    page.evaluate(function() {
-                                        return window.location.href;
-                                    }, function(url) {
-                                        console.log('[login] final authorization code URL: ' + url);
-                                        var authCode = getAuthCodeFromUrl(url);
-                                        returnAuthCodeCallback(authCode);
-                                    })
-                                }, 10000);
-                            });
-                        }, 10000);
-                    });
+                    setTimeout(function(){
+                        enterDetailsAndLogin(page, function () {
+                            setTimeout(function() {
+                                page.evaluate(function() {
+                                    return window.location.href;
+                                }, function(url) {
+                                    page.render('foo.png');
+
+                                    console.log('[login] final authorization code URL: ' + url);
+                                    var authCode = getAuthCodeFromUrl(url);
+                                    console.log('[login] auth code ' + authCode);
+
+                                    returnAuthCodeCallback(authCode);
+                                })
+                            }, 10000);
+                        });
+                    }, 10000);
                 });
             });
         });
