@@ -12,7 +12,7 @@ function enterDetailsAndLogin(page, callback) {
             el.value = text;
             var evt = document.createEvent('CustomEvent');  // MUST be 'CustomEvent'
             evt.initCustomEvent('input', false, false, null);
-            el.dispatchEvent(evt);
+	    el.dispatchEvent(evt);
         }
 
         var clickElement = function (el) {
@@ -28,14 +28,14 @@ function enterDetailsAndLogin(page, callback) {
                 el.dispatchEvent(ev);
         };
 
-        clickElement(document.getElementsByClassName('btn-primary')[0]);
+        clickElement(document.getElementsByClassName('btn-green')[0]);
         setText(document.getElementById('login-password'), password);
         setText(document.getElementById('login-username'), username);
         setTimeout(function() {
-            clickElement(document.getElementsByClassName('btn-primary')[0]);
+            clickElement(document.getElementsByClassName('btn-green')[0]);
 
             setTimeout(function() {
-                clickElement(document.getElementsByClassName('btn-primary')[0]);
+                clickElement(document.getElementsByClassName('btn-green')[0]);
 
             }, 2000);
         }, 2000);
