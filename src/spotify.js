@@ -3,6 +3,7 @@ var config = require('./config');
 var login = require('./login');
 
 console.log('[Spotify] Configured with client ID ' + config.clientId);
+
 var spotifyApi = new SpotifyWebApi({
   clientId : config.clientId,
   clientSecret : config.clientSecret,
@@ -11,6 +12,13 @@ var spotifyApi = new SpotifyWebApi({
 
 var addSongBatchQueue = [];
 var addSongBatchInterval = 15000; //ms
+
+exports.clearPlaylist = function clearPlaylist (callback) {
+	authorize(function () {
+	    console.log('[Spotify] clearing tracks');
+	    spotifyApi.replaceTracksInPlaylist(config.username, config.playlistId, []).then(callback, function (err) { console.log('[Spotify] ' + err)});
+	});	
+}
 
 function addToPlaylist(uri) {
     if (uri) {
